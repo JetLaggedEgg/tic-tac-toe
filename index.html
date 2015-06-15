@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic-Tac-Toe</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="server/css/global.css" />
+	<link rel="icon" href="server/graphics/favicon.ico?v=2" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" href="server/graphics/logo.png" />
+</head>
+<body onload="p1highlight();">
+<div class="pageWrapper">
+	<div class="headBar mid">
+		<h1 class="titleName">Tic-Tac-Toe</h1>
+		<div class="scoreHolder">
+			<div class="scoreDiv">
+				<p class="scoreTitle">Menu</p>
+				<div class="scoreButton" onclick="resetScores();">Reset Scores</div>
+				<div id="playAgain" class="scoreButton" onclick="restartMatch();">Restart Round</div>
+			</div>
+			<div class="scoreDiv">
+				<p class="scoreTitle">Scores</p>
+				<table class="scores">
+					<tr class="scoreRow">
+						<td class="scoresCell"><p id="playerOneName" class="scoreText" >Player X</p></td>
+						<td class="scoresCell"><p id="playerOneScore" class="scoreText">0</p></td>
+					</tr>
+					<tr class="scoreRow">
+						<td class="scoresCell"><p id="playerTwoName" class="scoreText">Player O</p></td>
+						<td class="scoresCell"><p id="playerTwoScore" class="scoreText">0</p></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="gameBoard mid">
+		<div id="tile1" class="boardTile" onclick="playTurn(1);"><p id="inTile1" class="inTile"></p></div>
+		<div id="tile2" class="boardTile" onclick="playTurn(2);"><p id="inTile2" class="inTile"></p></div>
+		<div id="tile3" class="boardTile" onclick="playTurn(3);"><p id="inTile3" class="inTile"></p></div>
+		<div id="tile4" class="boardTile" onclick="playTurn(4);"><p id="inTile4" class="inTile"></p></div>
+		<div id="tile5" class="boardTile" onclick="playTurn(5);"><p id="inTile5" class="inTile"></p></div>
+		<div id="tile6" class="boardTile" onclick="playTurn(6);"><p id="inTile6" class="inTile"></p></div>
+		<div id="tile7" class="boardTile" onclick="playTurn(7);"><p id="inTile7" class="inTile"></p></div>
+		<div id="tile8" class="boardTile" onclick="playTurn(8);"><p id="inTile8" class="inTile"></p></div>
+		<div id="tile9" class="boardTile" onclick="playTurn(9);"><p id="inTile9" class="inTile"></p></div>
+	</div>
+	<div class="footBar mid">
+		<p class="contentText"><b>How to play:</b><br />
+			This game is a standard Tic-Tac-Toe clone. The goal is to get 3 of your tiles in a row. Two players choose must decide o who is player X and who is player O. Player X starts first off. They place down their first tile on the board, from this point both players must attempt to block their opponents and place 3 of their tiles in a row. A draw rewards no points and a win rewards 1 to the winner. If a player plays last and doesn't win, the other goes first. If they play last and do win, they go first.
+		</p><br />
+		<p class="contentText"><b>About this game:</b><br />
+			This Tic-Tac-Toe game was created using HTML5, CSS3 and JavaScript. It is currently at version 0.0.6 so may have a few bugs (I got rid of most of them though!).<br /><br />
+			If you do any find bugs, please email me on <a class="ext" href="mailto:daniel.sarracayo@gmail.com?subject=Bug Found! Tic-Tac-Toe - V0.0.6">daniel.sarracayo@gmail.com</a> with the subject of "Bug in Tic-Tac-Toe!". Thanks.
+		</p><br />
+		<p class="contentText"><b>Credits:</b><br />
+			Designed, Crafted and Maintained by Daniel Sarracayo of JetLaggedStudios.<br />
+			<a class="ext" target="_blank" href="http://jetlaggedstudios.github.io/">Creator's Site.</a><br />
+			<a class="ext" target="_blank" href="https://trello.com/b/dObl1lFO/tic-tac-toe-by-jetlaggedstudios">This game's fate. (Future Plans)</a><br />
+		</p>
+	</div>
+</div>
+<script type="text/javascript" src="server/scripts/logic.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+/* CSS FOR NOUGHTS AND CROSSES BY JETLAGGEDSTUDIOS */
+
+/* Main Structruals*/
+
+* {
+	padding: 0px;
+	margin: 0px;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #433628;
+}
+
+html {
+	background-color: #FAF8EF;
+}
+
+div.pageWrapper {
+	max-width: 500px;
+	width: 100%;
+	margin: 0px auto;
+}
+
+div.mid {
+	margin: 0px auto;
+	max-width: 400px;
+}
+
+div.clear {
+	clear: both;
+}
+
+div.footBar {
+	margin: 0px auto 30px;
+}
+
+/* Score Stuff */
+
+div.scoreHolder {
+	text-align: middle;
+	margin: 20px;
+}
+
+div.scoreDiv {
+	width: 50%;
+	display: block;
+	float: left;
+}
+
+div.scoreButton {
+	width: 120px;
+	height: 30px;
+	display: block;
+	cursor: pointer;
+	margin: 10px auto;
+	background-color: #BBADA0;
+	-webkit-transition: 0.5s background-color;
+	transition: 0.5s background-color;
+	text-align: center;
+	padding-top: 10px;
+	border-radius: 5px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div.scoreButton:hover {
+	background-color: #EEE4DA;
+}
+
+p.scoreTitle {
+	font-size: 1.1em;
+	text-align: center;
+}
+
+p.scoreText {
+	text-align: center;
+	border-radius: 5px;
+	line-height: 25px;
+	-webkit-transition: 0.5s background-color, 0.5s line-height. 0.5s color;
+	transition: 0.5s background-color, 0.5s line-height, 0.5s color;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#playerOneName {
+	background-color: #DB4D4D;
+}
+
+#playerTwoName {
+	background-color: #70B8FF;
+}
+
+table.scores {
+	width: 120px;
+	margin: 10px 0px;
+}
+
+tr.scoresRow {
+
+}
+
+td.scoresCell {
+	height: 35px;
+}
+
+/* ------------------ */
+
+
+/* Textual Styles */
+
+h1.titleName {
+	font-size: 2em;
+	margin: 10px 0px;
+	text-align: center;
+}
+
+h3.contentTitle {
+	font-size: 1em;
+	margin: 10px 0px;
+	text-align: center;
+}
+
+p.contentText {
+	font-size: 1em;
+	width: 90%;
+	margin: 0px auto;
+	text-align: justify;
+}
+
+p.smallText {
+
+}
+
+/* ------------------ */
+
+
+/* Game Board */
+
+div.gameBoard {
+	width: 295px;
+	height: 295px;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: #BBADA0;
+	margin: 0px auto 30px;
+}
+
+div.boardTile {
+	width: 90px;
+	height: 90px;
+	margin: 4px;
+	cursor: pointer;
+	background-color: #EEE4DA;
+	opacity: 0.5;
+	-webkit-transition: 0.5s opacity;
+	transition: 0.5s opacity;
+	display: block;
+	float: left;
+}
+
+div.boardTile:hover {
+	opacity: 1;
+}
+
+p.inTile {
+	text-align: center;
+	font-size: 5em;
+	line-height: 90px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* ------------------ */
+
+
+/* EMPTY */
+
+/* ------------------ */
+
+
+/* EMPTY */
+
+/* ------------------ */
