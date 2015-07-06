@@ -25,15 +25,6 @@ var disableTile7 = 0;
 var disableTile8 = 0;
 var disableTile9 = 0;
 
-/* The logic.
-
-1 - what was pressed.
-2 - by who.
-3 - have they won?
-4 - if not, colour their tile. if so, make a line of coloured tiles.
-
-*/
-
 // Highlight Player one.
 function p1highlight() {
 	document.getElementById("playerTwoName").style.lineHeight = "25px";
@@ -84,14 +75,12 @@ function playTurn (x) {
 function changeTurn () {
 	if (playerTurn === 0) {
 		playerTurn = 1;
-		p2highlight();
 		turnNumber++;
 		console.log("Turn "+turnNumber+" was just taken by player X.");
 		checkWin();
 	}
 	else {
 		playerTurn = 0;
-		p1highlight();
 		turnNumber++;
 		console.log("Turn "+turnNumber+" was just taken by player O.");
 		checkWin();
@@ -133,7 +122,7 @@ function checkWin () {
 	if (checking == false) {
 		checking = true;
 		if (playerTurn == 1) {
-			whoPlayedLast = 1;
+			whoPlayedLast = 0;
 			if (aa == 'X' && ab == 'X' && ac == 'X') {
 				AA.backgroundColor = "#9AFF9A";
 				AB.backgroundColor = "#9AFF9A";
@@ -251,11 +240,16 @@ function checkWin () {
 				CA.backgroundColor = "#FF8533";
 				CB.backgroundColor = "#FF8533";
 				CC.backgroundColor = "#FF8533";
+				playerTurn = 0;
 				console.log("Nobody won!");
+			}
+			else {
+				p2highlight();
+				playerTurn = 1;
 			}
 		}
 		else if (playerTurn == 0) {
-			whoPlayedLast = 0;
+			whoPlayedLast = 1;
 			if (aa == 'O' && ab == 'O' && ac == 'O') {
 				AA.backgroundColor = "#9AFF9A";
 				AB.backgroundColor = "#9AFF9A";
@@ -368,7 +362,10 @@ function checkWin () {
 				CC.backgroundColor = "#FF8533";
 				console.log("Nobody won!");
 			}
-			return;
+			else {
+				p1highlight();
+				playerTurn = 0;
+			}
 		}
 		checking = false;
 		return;
@@ -406,6 +403,15 @@ function restartMatch () {
 	clearTile(7);
 	clearTile(8);
 	clearTile(9);
+	turnNumber = 0;
+	if (whoPlayedLast === 0) {
+		p1highlight();
+		playerTurn = 0;
+	}
+	else {
+		p2highlight();
+		playerTurn = 1;
+	}
 	console.log("Just wiped the board clean!");
 }
 
@@ -414,13 +420,5 @@ function clearTile (x) {
 	document.getElementById("inTile"+x).innerHTML = "";
 	document.getElementById("tile"+x).style.backgroundColor = "#EEE4DA";
 	document.getElementById("tile"+x).style.opacity = "0.5";
-	playerTurn = whoPlayedLast;
-	turnNumber = 0;
-	if (whoPlayedLast == 0) {
-		p1highlight();
-	}
-	else {
-		p2highlight();
-	}
 	console.log("Cleaning tile"+x);
 }
