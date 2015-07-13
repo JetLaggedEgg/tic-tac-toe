@@ -10,7 +10,7 @@
 	<link rel="icon" href="server/graphics/favicon.ico?v=2" type="image/x-icon" />
 	<link rel="apple-touch-icon-precomposed" href="server/graphics/logo.png" />
 </head>
-<body onload="p1highlight();">
+<body onload="getScores();p1highlight();">
 <div class="pageWrapper">
 	<div class="headBar mid">
 		<h1 class="titleName">Tic-Tac-Toe</h1>
@@ -49,11 +49,15 @@
 	</div>
 	<div class="footBar mid">
 		<p class="contentText"><b>How to play:</b><br />
-			This game is a standard Tic-Tac-Toe clone. The goal is to get 3 of your tiles in a row. Two players choose must decide who is player X and who is player O. Player X plays first. They place down their first tile on the board, next player O does the same. From this point players take it in turn to place tiles, both blocking their opponents attempts at 3 in a rows and attempting their own. A draw rewards no points and a win rewards 1 to the winner. The winning player goes first, in a draw the last player goes first.
+			This is a standard tic-tac-toe game, just online. Players take it in turn to place their tiles on the board. Your goal is to get three in a row, if you do, you will then get a point. You must also block your opponent from doing so themselves. The winner goes first on the next round.
 		</p><br />
 		<p class="contentText"><b>About this game:</b><br />
-			This Tic-Tac-Toe game was created using HTML5, CSS3 and JavaScript. It is currently at version 0.0.7 so may have a few bugs (I got rid of most of them though!).<br /><br />
-			If you do any find bugs, please email me on <a class="ext" href="mailto:daniel.sarracayo@gmail.com?subject=Bug Found! Tic-Tac-Toe - V0.0.7">daniel.sarracayo@gmail.com</a> with the subject of "Bug in Tic-Tac-Toe!", also including a small description about the bug and any other suggestion in the body of the email. Thanks -Dan.
+			This Tic-Tac-Toe game was created using HTML5, CSS3 and JavaScript. It is currently at version 0.0.8 so may have a few bugs (I got rid of most of them though!).<br /><br />
+			If you do any find bugs, please email me on <a class="ext" href="mailto:daniel.sarracayo@gmail.com?subject=Bug Found! Tic-Tac-Toe - V0.0.8">daniel.sarracayo@gmail.com</a> with the subject of "Bug in Tic-Tac-Toe!", also including a small description about the bug and any other suggestion in the body of the email. Thanks -Dan.
+		</p><br />
+		<p class="contentText"><b>Latest Features:</b><br />
+			The latest features that have been implemented.<br />
+			- Persistant Scores, your scores are now saved to your device as cookies and therefore are never lost!
 		</p><br />
 		<p class="contentText"><b>Credits:</b><br />
 			Designed, Crafted and Maintained by Daniel Sarracayo of JetLaggedStudios.<br />

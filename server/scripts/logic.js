@@ -25,6 +25,54 @@ var disableTile7 = 0;
 var disableTile8 = 0;
 var disableTile9 = 0;
 
+// New get scores from cookies.
+
+function getScores () {
+
+	var playerScore1Cookie = getCookie('playerScore1data');
+	var playerScore2Cookie = getCookie('playerScore2data');
+	if (playerScore1Cookie == "" || playerScore2Cookie == "") {
+		playerScore1 = "0";
+		playerScore2 = "0";
+	}
+	else {
+		playerScore1 = playerScore1Cookie;
+		playerScore2 = playerScore2Cookie;
+	}
+	document.getElementById('playerOneScore').innerHTML = playerScore1;
+	document.getElementById('playerTwoScore').innerHTML = playerScore2;
+	console.log("Just got the cookies!");
+}
+
+// Cookies
+
+// Get cookie
+function getCookie(cname) {
+	var cookieName = cname;
+	var allCookies = document.cookie.split(';');
+	var cookieData = "";
+	for (var i=0; i < allCookies.length; i++) {
+		if ((allCookies[i].indexOf(cookieName)) != -1) {
+			match = allCookies[i].replace(" ", "");
+			cookieData = match.substr((cookieName.length + 1));
+		}
+	}
+	return cookieData;
+}
+
+// Set cookie
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+// Delete cookie
+function delCookie(cname) {
+	document.cookie = cname + "=" + "" + "; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
+}
+
 // Highlight Player one.
 function p1highlight() {
 	document.getElementById("playerTwoName").style.lineHeight = "25px";
@@ -91,6 +139,8 @@ function changeTurn () {
 function updateScore () {
 	document.getElementById('playerOneScore').innerHTML = playerScore1;
 	document.getElementById('playerTwoScore').innerHTML = playerScore2;
+	setCookie('playerScore1data', playerScore1, '365');
+	setCookie('playerScore2data', playerScore2, '365');
 }
 
 // Check if anyone has won.
@@ -378,6 +428,8 @@ function resetScores () {
 	var confiScore = confirm("Are you sure you want to clear your scores? This cannot be undone!");
 	if (confiScore == true) {
 		restartMatch();
+		delCookie(playerScore1);
+		delCookie(playerScore2);
 		playerScore1 = 0;
 		playerScore2 = 0;
 		document.getElementById("playerOneScore").innerHTML = '0';
