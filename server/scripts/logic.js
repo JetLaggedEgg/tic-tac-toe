@@ -428,8 +428,8 @@ function resetScores () {
 	var confiScore = confirm("Are you sure you want to clear your scores? This cannot be undone!");
 	if (confiScore == true) {
 		restartMatch();
-		delCookie(playerScore1);
-		delCookie(playerScore2);
+		delCookie('playerScore1data');
+		delCookie('playerScore2data');
 		playerScore1 = 0;
 		playerScore2 = 0;
 		document.getElementById("playerOneScore").innerHTML = '0';
