@@ -1,4 +1,4 @@
-/* CSS FOR NOUGHTS AND CROSSES BY JETLAGGEDSTUDIOS */
+/* GLOBAL CSS FOR JETLAGGEDSTUDIOS' TIC-TAC-TOE */
 
 /* Main Structruals*/
 
@@ -15,17 +15,24 @@ html {
 
 div.pageWrapper {
 	max-width: 500px;
+	min-width: 320px;
 	width: 100%;
 	margin: 0px auto;
 }
 
-div.mid {
-	margin: 0px auto;
-	max-width: 400px;
+div.wrapper {
+	width: 100px;
+	max-width: 500px;
+	margin: 10px auto;
 }
 
-div.clear {
-	clear: both;
+div.mid {
+	margin: 0px auto;
+	max-width: 500px;
+}
+
+div.headBar {
+	margin-bottom: 20px;
 }
 
 div.footBar {
@@ -35,28 +42,25 @@ div.footBar {
 /* Score Stuff */
 
 div.scoreHolder {
-	text-align: middle;
-	margin: 20px;
-}
-
-div.scoreDiv {
-	width: 50%;
-	display: block;
-	float: left;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 20px;
+	max-width: 490px;
+	width: 100%;
+	margin: 0px auto;
 }
 
 div.scoreButton {
 	width: 120px;
 	height: 30px;
-	display: block;
+	line-height: 30px;
+	display: inline-block;
 	cursor: pointer;
-	margin: 10px auto;
 	background-color: #BBADA0;
+	text-align: center;
+	border-radius: 5px;
 	-webkit-transition: 0.5s background-color;
 	transition: 0.5s background-color;
-	text-align: center;
-	padding-top: 10px;
-	border-radius: 5px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -69,15 +73,13 @@ div.scoreButton:hover {
 	background-color: #EEE4DA;
 }
 
-p.scoreTitle {
-	font-size: 1.1em;
-	text-align: center;
-}
-
 p.scoreText {
 	text-align: center;
+	width: 25%;
+	display: inline-block;
 	border-radius: 5px;
 	line-height: 25px;
+	overflow: hidden;
 	-webkit-transition: 0.5s background-color, 0.5s line-height. 0.5s color;
 	transition: 0.5s background-color, 0.5s line-height, 0.5s color;
 	-webkit-touch-callout: none;
@@ -88,6 +90,10 @@ p.scoreText {
 	user-select: none;
 }
 
+div.scoreStrip {
+	height: 45px;
+}
+
 #playerOneName {
 	background-color: #DB4D4D;
 }
@@ -96,17 +102,30 @@ p.scoreText {
 	background-color: #70B8FF;
 }
 
-table.scores {
-	width: 120px;
-	margin: 10px 0px;
+#playerThreeName {
+	background-color: #E1DF55;
+	display: none;
 }
 
-tr.scoresRow {
-
+#playerThreeScore {
+	display: none;
 }
 
-td.scoresCell {
-	height: 35px;
+#firstToThree {
+	display: none;
+}
+
+#noScriptDiv {
+	background: #F2E2D3 url(../graphics/yudothistome.jpg) no-repeat center center;
+	background-size: auto 100%;
+	height: 80px;
+	color: #FF0000;
+	padding-top: 280px;
+}
+
+#menuError {
+	color: #FF3030;
+	font-size: 0.8em;
 }
 
 /* ------------------ */
@@ -114,16 +133,25 @@ td.scoresCell {
 
 /* Textual Styles */
 
-h1.titleName {
+h1.title {
 	font-size: 2em;
 	margin: 10px 0px;
-	text-align: center;
+	display: block;
+	width: 250px;
+	float: left;
 }
 
 h3.contentTitle {
 	font-size: 1em;
-	margin: 10px 0px;
+	margin: 5px 0px;
 	text-align: center;
+}
+
+
+p.contentTextC {
+	font-size: 1em;
+	text-align: center;
+	margin: 0px 0px;
 }
 
 p.contentText {
@@ -147,25 +175,29 @@ div.gameBoard {
 	height: 295px;
 	border-radius: 5px;
 	padding: 5px;
+	opacity: 1;
 	background-color: #BBADA0;
 	margin: 0px auto 30px;
 }
 
 div.boardTile {
-	width: 90px;
-	height: 90px;
-	margin: 4px;
+	width: 92px;
+	height: 92px;
+	margin: 3px;
 	cursor: pointer;
 	background-color: #EEE4DA;
 	opacity: 0.5;
-	-webkit-transition: 0.5s opacity;
-	transition: 0.5s opacity;
+	-webkit-transition: 0.5s opacity, 0.3s width, 0.3s height;
+	-moz-transition: 0.5s opacity, 0.3s width, 0.3s height;
+	-ms-transition: 0.5s opacity, 0.3s width, 0.3s height;
+	-o-transition: 0.5s opacity, 0.3s width, 0.3s height;
+	transition: 0.5s opacity, 0.3s width, 0.3s height;
 	display: block;
 	float: left;
 }
 
 div.boardTile:hover {
-	opacity: 1;
+	opacity: 1.0;
 }
 
 p.inTile {
@@ -178,6 +210,36 @@ p.inTile {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+/* Hiding unused tiles for 1 vs 1 */
+
+#tile10 {
+	display: none;
+}
+
+#tile11 {
+	display: none;
+}
+
+#tile12 {
+	display: none;
+}
+
+#tile13 {
+	display: none;
+}
+
+#tile14 {
+	display: none;
+}
+
+#tile15 {
+	display: none;
+}
+
+#tile16 {
+	display: none;
 }
 
 /* ------------------ */
