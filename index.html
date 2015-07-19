@@ -1,42 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html id ="html">
+<!-- 
+
+Hello! Dan here. This is the web page for my Tic-Tac-Toe game. Reuse it all you wish, just remove my identity from it if you do so, thanks. If you want to see the source code for this entire game, there will be a link at the base of the page, but here is a special F12 master's version :P
+
+http://www.github.com/jetlaggedegg/tic-tac-toe/
+
+-->
 <head>
 	<title>Tic-Tac-Toe</title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
+	<meta name="robots" content="index nofollow" />
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="stylesheet" type="text/css" href="server/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="server/css/nav.css" />
 	<link rel="icon" href="server/graphics/favicon.ico?v=2" type="image/x-icon" />
 	<link rel="apple-touch-icon-precomposed" href="server/graphics/logo.png" />
 </head>
-<body onload="getScores();p1highlight();">
+<body onload="initialise();">
+<noscript>
+	<div id="noScriptDiv">
+		<p class="contentTextC" style="color: #ff0000;font-size: 20px;font-weight: bolder;">Do you think this game runs on fairy dust or something? Please enable JavaScript or use a device that allows you to do so. Thanks.</p>
+	</div>
+</noscript>
 <div class="pageWrapper">
 	<div class="headBar mid">
-		<h1 class="titleName">Tic-Tac-Toe</h1>
-		<div class="scoreHolder">
-			<div class="scoreDiv">
-				<p class="scoreTitle">Menu</p>
-				<div class="scoreButton" onclick="resetScores();">Reset Scores</div>
-				<div id="playAgain" class="scoreButton" onclick="restartMatch();">Restart Round</div>
+		<div class="navBar">
+			<div id="upperNav">
+				<h1 class="title">Tic-Tac-Toe</h1>
+				<div id="menuHamburger" onclick="navPwease();"></div>
 			</div>
-			<div class="scoreDiv">
-				<p class="scoreTitle">Scores</p>
-				<table class="scores">
-					<tr class="scoreRow">
-						<td class="scoresCell"><p id="playerOneName" class="scoreText" >Player X</p></td>
-						<td class="scoresCell"><p id="playerOneScore" class="scoreText">0</p></td>
+			<div id="lowerNav">
+				<br />
+				<p class="contentTextC">- GameModes -</p>
+				<div class="menuButton" onclick="">Coming Soon</div>
+				<div class="menuButton" onclick="setUpGame(1);navPwease();updateCookies();">2 Player</div>
+				<div class="menuButton" onclick="">Coming Soon</div>
+				<p class="contentTextC">- Mechanics -</p>
+				<table class="settings">
+					<tr class="settingsRow">
+						<td class="settingsCell">Winner Goes First:</td>
+						<td class="settingsCell"><input type="checkbox" id="winnerGoesFirstCheck" checked="" onclick="changeSetting(1);" /></td>
 					</tr>
-					<tr class="scoreRow">
-						<td class="scoresCell"><p id="playerTwoName" class="scoreText">Player O</p></td>
-						<td class="scoresCell"><p id="playerTwoScore" class="scoreText">0</p></td>
+					<tr class="settingsRow">
+						<td class="settingsCell">Dark/Night Mode:</td>
+						<td class="settingsCell"><input type="checkbox" id="monoToneCheck" checked="" onclick="changeSetting(2);" /></td>
+					</tr>
+					<tr id="firstToThree" class="settingsRow">
+						<td class="settingsCell">First to 3 in a row:</td>
+						<td class="settingsCell"><input type="checkbox" id="firstToThreeCheck" checked="" onclick="changeSetting(3);" /></td>
 					</tr>
 				</table>
+				<p class="contentTextC">- Settings -</p>
+				<div class="menuButton" onclick="wipeScores();">Wipe Scores</div>
+				<div class="menuButton" onclick="delSettings();">Wipe Settings</div>
+				<div class="menuButton" onclick="wipeNames();">Wipe Names</div>
+				<div class="menuButton" onclick="updateCookies();">Manual Save</div>
+				<p class="contentTextC">- Player Names -</p>
+				<table class="settings">
+					<tr class="settingsRow">
+						<td class="settingsCell" ><p class="contentTextC">Player X</p></td>
+						<td class="settingsCell" ><p class="contentTextC">Player O</p></td>
+						<td class="settingsCell" style="display: none;"><p class="contentTextC">Player Y</p></td>
+					</tr>
+					<tr class="settingsRow">
+						<td class="settingsCell" ><input id="playerOneTag" class="nameTag" type="text" value="Player X" onblur="checkNames();updateCookies();" /></td>
+						<td class="settingsCell" ><input id="playerTwoTag" class="nameTag" type="text" value="Player O" onblur="checkNames();updateCookies();" /></td>
+						<td class="settingsCell" style="display: none;"><input id="playerThreeTag" class="nameTag" type="text" value="Player Y" onblur="checkNames();updateCookies();" /></td>
+					</tr>
+				</table>
+				<p id="menuError" class="contentText"></p>
 			</div>
 		</div>
-		<div class="clear"></div>
+		<div class="scoreHolder">
+			<h3 id="gameModeName" class="contentTitle"></h3>
+			<div class="scoreHolder">
+				<div class="scoreStrip">
+					<p id="playerOneName" class="scoreText">Player X</p>
+					<p id="playerTwoName" class="scoreText">Player O</p>
+					<p id="playerThreeName" class="scoreText">Player Y</p>
+				</div>
+				<div class="scoreStrip">
+					<p id="playerOneScore" class="scoreText">0</p>
+					<p id="playerTwoScore" class="scoreText">0</p>
+					<p id="playerThreeScore" class="scoreText">0</p>
+				</div>
+				<div id="playAgain" class="scoreButton" onclick="restartRound();">Restart Round</div>
+			</div>
+		</div>
 	</div>
-	<div class="gameBoard mid">
+	<div id="gameBoard" class="gameBoard mid">
 		<div id="tile1" class="boardTile" onclick="playTurn(1);"><p id="inTile1" class="inTile"></p></div>
 		<div id="tile2" class="boardTile" onclick="playTurn(2);"><p id="inTile2" class="inTile"></p></div>
 		<div id="tile3" class="boardTile" onclick="playTurn(3);"><p id="inTile3" class="inTile"></p></div>
@@ -46,26 +101,35 @@
 		<div id="tile7" class="boardTile" onclick="playTurn(7);"><p id="inTile7" class="inTile"></p></div>
 		<div id="tile8" class="boardTile" onclick="playTurn(8);"><p id="inTile8" class="inTile"></p></div>
 		<div id="tile9" class="boardTile" onclick="playTurn(9);"><p id="inTile9" class="inTile"></p></div>
+		<div id="tile10" class="boardTile" onclick="playTurn(10);"><p id="inTile10" class="inTile"></p></div>
+		<div id="tile11" class="boardTile" onclick="playTurn(11);"><p id="inTile11" class="inTile"></p></div>
+		<div id="tile12" class="boardTile" onclick="playTurn(12);"><p id="inTile12" class="inTile"></p></div>
+		<div id="tile13" class="boardTile" onclick="playTurn(13);"><p id="inTile13" class="inTile"></p></div>
+		<div id="tile14" class="boardTile" onclick="playTurn(14);"><p id="inTile14" class="inTile"></p></div>
+		<div id="tile15" class="boardTile" onclick="playTurn(15);"><p id="inTile15" class="inTile"></p></div>
+		<div id="tile16" class="boardTile" onclick="playTurn(16);"><p id="inTile16" class="inTile"></p></div>
 	</div>
-	<div class="footBar mid">
-		<p class="contentText"><b>How to play:</b><br />
-			This is a standard tic-tac-toe game, just online. Players take it in turn to place their tiles on the board. Your goal is to get three in a row, if you do, you will then get a point. You must also block your opponent from doing so themselves. The winner goes first on the next round.
+	<div id="footerBar" class="footBar mid">
+		<p id="paraOne" class="contentText">How to play:<br />
+			There is currently one game mode. Human vs Human. To play, you and your friend must place tiles down in turns. The winner is the first to get three of their tiles in a row, a draw will result in no awarded points and winning awards one. Unless the 'winner goes first' option is off, the winner will go first the next round.
 		</p><br />
-		<p class="contentText"><b>About this game:</b><br />
-			This Tic-Tac-Toe game was created using HTML5, CSS3 and JavaScript. It is currently at version 0.0.8 so may have a few bugs (I got rid of most of them though!).<br /><br />
-			If you do any find bugs, please email me on <a class="ext" href="mailto:daniel.sarracayo@gmail.com?subject=Bug Found! Tic-Tac-Toe - V0.0.8">daniel.sarracayo@gmail.com</a> with the subject of "Bug in Tic-Tac-Toe!", also including a small description about the bug and any other suggestion in the body of the email. Thanks -Dan.
+		<p id="paraTwo" class="contentText">About this game:<br />
+			I created this game so that I could enhance my front end web developing knowledge. It's made using HTML and CSS as it's UI and JavaScript for the inner workings and to add functionality to the UI.<br /><br />
+			The current version is 1.1.0.
 		</p><br />
-		<p class="contentText"><b>Latest Features:</b><br />
-			The latest features that have been implemented.<br />
-			- Persistant Scores, your scores are now saved to your device as cookies and therefore are never lost!
-		</p><br />
-		<p class="contentText"><b>Credits:</b><br />
+		<p id="paraThree" class="contentText">Credits:<br />
+			Copyright &copy; JetlaggedStudios 2015<br />
+			This game has been released under the <a class="ext" href="/LICENSE.txt">MIT License.</a><br />
 			Designed, Crafted and Maintained by Daniel Sarracayo of JetLaggedStudios.<br />
-			<a class="ext" target="_blank" href="http://jetlaggedstudios.github.io/">Creator's Site.</a><br />
-			<a class="ext" target="_blank" href="https://trello.com/b/dObl1lFO/tic-tac-toe-by-jetlaggedstudios">This game's fate. (Future Plans)</a><br />
+			<a class="ext" target="_blank" href="http://jetlaggedstudios.github.io/">Creator's Site</a><br />
+			<a class="ext" target="_blank" href="http://trello.com/b/dObl1lFO/tic-tac-toe-by-jetlaggedstudios">Future Plans</a><br />
+			<a class="ext" target="_blank" href="mailto:daniel.sarracayo@gmail.com?subject=Feedback on tic-tac-toe (v1.1.0)">Give me Feedback</a><br />
+			<a class="ext" target="_blank" href="http://www.github.com/jetlaggedegg/tic-tac-toe">Source code for you Devs</a><br />
 		</p>
 	</div>
 </div>
-<script type="text/javascript" src="server/scripts/logic.js"></script>
+<!-- SCRIPTS -->
+<script type="text/javascript" src="server/scripts/navlogic.js"></script>
+<script type="text/javascript" src="server/scripts/gamelogic.js"></script>
 </body>
 </html>
