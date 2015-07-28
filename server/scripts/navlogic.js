@@ -4,7 +4,7 @@ var navState = 0;
 
 var slidingDrawer = document.getElementById('lowerNav'); // Nav Drawer by ID.
 
-var wantedHeight = 400; // Wanted Height.
+var wantedHeight = 460; // Wanted Height.
 
 
 // Nav Request Function

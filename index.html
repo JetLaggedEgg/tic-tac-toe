@@ -15,17 +15,32 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="stylesheet" type="text/css" href="server/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="server/css/loading.css" />
 	<link rel="stylesheet" type="text/css" href="server/css/nav.css" />
 	<link rel="icon" href="server/graphics/favicon.ico?v=2" type="image/x-icon" />
 	<link rel="apple-touch-icon-precomposed" href="server/graphics/logo.png" />
 </head>
-<body onload="initialise();">
-<noscript>
-	<div id="noScriptDiv">
-		<p class="contentTextC" style="color: #ff0000;font-size: 20px;font-weight: bolder;">Do you think this game runs on fairy dust or something? Please enable JavaScript or use a device that allows you to do so. Thanks.</p>
+
+<body onload="pageReady();">
+<div id="loadingScreen">
+	<div class="mid">
+		<h3 class="contentTitle">Tic-Tac-Toe</h3>
+		<p class="contentTextC">By JetLaggedStudios</p>
+			<img class="loadingImage" src="server/graphics/logo.png" alt="" />
+		<noscript>
+			<!--Activated without JavaScript-->
+			<p class="contentTextC" style="color: #ff0000;font-size: 20px;font-weight: bolder;">Do you think this game runs on fairy dust or something? Please enable JavaScript or use a device that allows you to do so. Thanks.</p>
+		</noscript>
+		<p class="contentTextC">Loading...</p>
+		<ul class="spinner">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
-</noscript>
-<div class="pageWrapper">
+</div>
+<div id="pageWrapper" class="pageWrapper">
 	<div class="headBar mid">
 		<div class="navBar">
 			<div id="upperNav">
@@ -115,7 +130,7 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 		</p><br />
 		<p id="paraTwo" class="contentText">About this game:<br />
 			I created this game so that I could enhance my front end web developing knowledge. It's made using HTML and CSS as it's UI and JavaScript for the inner workings and to add functionality to the UI.<br /><br />
-			The current version is 1.1.0.
+			The current version is 1.2.0.
 		</p><br />
 		<p id="paraThree" class="contentText">Credits:<br />
 			Copyright &copy; JetlaggedStudios 2015<br />
@@ -123,7 +138,7 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 			Designed, Crafted and Maintained by Daniel Sarracayo of JetLaggedStudios.<br />
 			<a class="ext" target="_blank" href="http://jetlaggedstudios.github.io/">Creator's Site</a><br />
 			<a class="ext" target="_blank" href="http://trello.com/b/dObl1lFO/tic-tac-toe-by-jetlaggedstudios">Future Plans</a><br />
-			<a class="ext" target="_blank" href="mailto:daniel.sarracayo@gmail.com?subject=Feedback on tic-tac-toe (v1.1.0)">Give me Feedback</a><br />
+			<a class="ext" target="_blank" href="mailto:daniel.sarracayo@gmail.com?subject=Feedback on tic-tac-toe (v1.2.0)">Give me Feedback</a><br />
 			<a class="ext" target="_blank" href="http://www.github.com/jetlaggedegg/tic-tac-toe">Source code for you Devs</a><br />
 		</p>
 	</div>
@@ -131,5 +146,6 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 <!-- SCRIPTS -->
 <script type="text/javascript" src="server/scripts/navlogic.js"></script>
 <script type="text/javascript" src="server/scripts/gamelogic.js"></script>
+<script type="text/javascript" src="server/scripts/loading.js"></script>
 </body>
 </html>
