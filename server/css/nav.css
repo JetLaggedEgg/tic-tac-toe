@@ -4,6 +4,7 @@ div.navBar {
 	width: 100%;
 	background-color: #EEE4DA;
 	border-radius: 0px 0px 5px 5px;
+	border-bottom: 4px solid #BBADA0;
 	overflow: hidden;
 }
 
@@ -34,7 +35,6 @@ div.navBar {
 #lowerNav {
 	width: 100%;
 	height: 0px;
-	border-radius: 0px 0px 5px 5px;
 	text-align: center;
 	background-color: #BBADA0;
 	-webkit-transition: all 0.2s ease-in-out;

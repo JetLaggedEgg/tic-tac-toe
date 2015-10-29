@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html id ="html">
-<!-- 
+<!--
 
 Hello! Dan here. This is the web page for my Tic-Tac-Toe game. Reuse it all you wish, just remove my identity from it if you do so, thanks. If you want to see the source code for this entire game, there will be a link at the base of the page, but here is a special F12 master's version :P
 
@@ -20,26 +20,11 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 	<link rel="icon" href="server/graphics/favicon.ico?v=2" type="image/x-icon" />
 	<link rel="apple-touch-icon-precomposed" href="server/graphics/logo.png" />
 </head>
-
-<body onload="pageReady();">
-<div id="loadingScreen">
-	<div class="mid">
-		<h3 class="contentTitle">Tic-Tac-Toe</h3>
-		<p class="contentTextC">By JetLaggedStudios</p>
-			<img class="loadingImage" src="server/graphics/logo.png" alt="" />
-		<noscript>
-			<!--Activated without JavaScript-->
-			<p class="contentTextC" style="color: #ff0000;font-size: 20px;font-weight: bolder;">Do you think this game runs on fairy dust or something? Please enable JavaScript or use a device that allows you to do so. Thanks.</p>
-		</noscript>
-		<p class="contentTextC">Loading...</p>
-		<ul class="spinner">
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
-	</div>
-</div>
+<body onload="initialise();">
+	<noscript>
+		<!--Activated without JavaScript-->
+		<p class="contentTextC" style="color: #ff0000;font-size: 20px;font-weight: bolder;">Do you think this game runs on fairy dust or something? Please enable JavaScript or use a device that allows you to do so. Thanks.</p>
+	</noscript>
 <div id="pageWrapper" class="pageWrapper">
 	<div class="headBar mid">
 		<div class="navBar">
@@ -125,21 +110,21 @@ http://www.github.com/jetlaggedegg/tic-tac-toe/
 		<div id="tile16" class="boardTile" onclick="playTurn(16);"><p id="inTile16" class="inTile"></p></div>
 	</div>
 	<div id="footerBar" class="footBar mid">
-		<p id="paraOne" class="contentText">How to play:<br />
+		<p id="paraOne" class="contentText">
+			<b id="b1">How to play:</b><br />
 			There is currently one game mode. Human vs Human. To play, you and your friend must place tiles down in turns. The winner is the first to get three of their tiles in a row, a draw will result in no awarded points and winning awards one. Unless the 'winner goes first' option is off, the winner will go first the next round.
 		</p><br />
-		<p id="paraTwo" class="contentText">About this game:<br />
-			I created this game so that I could enhance my front end web developing knowledge. It's made using HTML and CSS as it's UI and JavaScript for the inner workings and to add functionality to the UI.<br /><br />
-			The current version is 1.2.0.
-		</p><br />
-		<p id="paraThree" class="contentText">Credits:<br />
-			Copyright &copy; JetlaggedStudios 2015<br />
+		<p id="paraTwo" class="contentText">
+			<b id="b2">Credits:</b><br />
 			This game has been released under the <a class="ext" href="/LICENSE.txt">MIT License.</a><br />
 			Designed, Crafted and Maintained by Daniel Sarracayo of JetLaggedStudios.<br />
-			<a class="ext" target="_blank" href="http://jetlaggedstudios.github.io/">Creator's Site</a><br />
+		</p>
+		<p id="paraThree" class="contentTextC"><br />
+			<a class="ext" target="_blank" href="http://jetlaggedegg.github.io/">Creator's Site</a><br />
 			<a class="ext" target="_blank" href="http://trello.com/b/dObl1lFO/tic-tac-toe-by-jetlaggedstudios">Future Plans</a><br />
-			<a class="ext" target="_blank" href="mailto:daniel.sarracayo@gmail.com?subject=Feedback on tic-tac-toe (v1.2.0)">Give me Feedback</a><br />
-			<a class="ext" target="_blank" href="http://www.github.com/jetlaggedegg/tic-tac-toe">Source code for you Devs</a><br />
+			<a class="ext" target="_blank" href="mailto:daniel.sarracayo@gmail.com?subject=Feedback on tic-tac-toe (v1.2.1)">Feedback</a><br />
+			<a class="ext" target="_blank" href="http://www.github.com/jetlaggedegg/tic-tac-toe">Source Code for you Devs</a><br /><br />
+				Copyright &copy; 2015 JetlaggedStudios
 		</p>
 	</div>
 </div>
