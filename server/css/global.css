@@ -103,14 +103,17 @@ div.scoreStrip {
 
 #playerOneName {
 	background-color: #DB4D4D;
+	vertical-align: middle;
 }
 
 #playerTwoName {
 	background-color: #70B8FF;
+	vertical-align: middle;
 }
 
 #playerThreeName {
 	background-color: #E1DF55;
+	vertical-align: middle;
 	display: none;
 }
 
@@ -166,10 +169,6 @@ p.contentText {
 	width: 90%;
 	margin: 0px auto;
 	text-align: justify;
-}
-
-p.smallText {
-
 }
 
 /* ------------------ */

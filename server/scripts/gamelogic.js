@@ -9,8 +9,8 @@ var turnNumber = 0; // The turn number. Used to check for the end of the game/dr
 var playerTurn = 0; // The current player turn.
 var gameWon = false; // Game won check. Is set true on draw, full board or win.
 var justWon = 0; // V
-/* Last player that won. Will be checked then wiped. 
- *In this case 1 is player X and 2 is player O then 3 is player Y, 
+/* Last player that won. Will be checked then wiped.
+ *In this case 1 is player X and 2 is player O then 3 is player Y,
  *this refrains from confusion with and allows 0 to be a no one won tag.
  */
 
@@ -35,6 +35,40 @@ var gm1ps2 = 0; // Score for player 2 in game mode 1.
 var gm2ps1 = 0; // Score for player 1 in game mode 2.
 var gm2ps2 = 0; // Score for player 2 in game mode 2.
 var gm2ps3 = 0; // Score for player 3 in game mode 2.
+
+// 3 Way - number of 3s.
+
+var player1threes = 0; // Number of three in a rows on GM 2 for player X.
+var player2threes = 0; // Number of three in a rows on GM 2 for player O.
+var player3threes = 0; // Number of three in a rows on GM 2 for player Y.
+
+// 3 way mode suits, 0 is unclaimed 1 is byt player X and so on.
+// This is used to keep a track of what 3 in a row combinations have been taken.
+
+var suit11 = 0;
+var suit12 = 0;
+var suit21 = 0;
+var suit22 = 0;
+var suit31 = 0;
+var suit32 = 0;
+var suit41 = 0;
+var suit42 = 0;
+var suit51 = 0;
+var suit52 = 0;
+var suit61 = 0;
+var suit62 = 0;
+var suit71 = 0;
+var suit72 = 0;
+var suit81 = 0;
+var suit82 = 0;
+var suit90 = 0;
+var suit91 = 0;
+var suit92 = 0;
+var suit93 = 0;
+var suit100 = 0;
+var suit101 = 0;
+var suit102 = 0;
+var suit103 = 0;
 
 // Game pointers
 
@@ -81,7 +115,7 @@ function getCookie(cname) {
 /* Set a cookie.
  * Just call the setCookie function
  * with the name of the new cookie, it's
- * value to be held and lastly the number 
+ * value to be held and lastly the number
  * of days you want the cookie to live.
  * All are best parsed as strings.
  */
@@ -96,7 +130,7 @@ function setCookie(cname, cvalue, exdays) {
  * Just call the delCookie function
  * with the name of the cookie that
  * you wish to delete.
- * Sets the expiry date to the past 
+ * Sets the expiry date to the past
  * and wipes cookie data.
  */
 function delCookie(cname) {
@@ -209,6 +243,8 @@ function monoToneMode(command) {
     var paraOne = document.getElementById('paraOne');
     var paraTwo = document.getElementById('paraTwo');
     var paraThree = document.getElementById('paraThree');
+    var b1 = document.getElementById('b1');
+    var b2 = document.getElementById('b2');
     var extLink = document.getElementsByClassName('ext');
 
     if (command == 'on') {
@@ -223,6 +259,8 @@ function monoToneMode(command) {
         paraOne.style.color = '#BBADA0';
         paraTwo.style.color = '#BBADA0';
         paraThree.style.color = '#BBADA0';
+        b1.style.color = '#BBADA0';
+        b2.style.color = '#BBADA0';
         extLink[0].style.color = '#BBADA0';
         extLink[1].style.color = '#BBADA0';
         extLink[2].style.color = '#BBADA0';
@@ -240,6 +278,8 @@ function monoToneMode(command) {
         paraOne.style.color = '#433628';
         paraTwo.style.color = '#433628';
         paraThree.style.color = '#433628';
+        b1.style.color = '#433628';
+        b2.style.color = '#433628';
         extLink[0].style.color = '#433628';
         extLink[1].style.color = '#433628';
         extLink[2].style.color = '#433628';
@@ -286,15 +326,14 @@ function checkNames() {
     // Menu error message pointer.
     var errMsg = document.getElementById('menuError');
     if (playerOneInput != '' && playerTwoInput != '' && playerThreeInput != '') {
-    	if (playerOneInput.value.length <= 12 && playerTwoInput.value.length <= 12 && playerThreeInput.value.length <= 12 && playerOneInput.value.length > 0 && playerTwoInput.value.length > 0 && playerThreeInput.value.length > 0) {
-	        playerOneName = playerOneInput.value;
-	        playerTwoName = playerTwoInput.value;
-	        playerThreeName = playerThreeInput.value;
+        if (playerOneInput.value.length <= 12 && playerTwoInput.value.length <= 12 && playerThreeInput.value.length <= 12 && playerOneInput.value.length > 0 && playerTwoInput.value.length > 0 && playerThreeInput.value.length > 0) {
+            playerOneName = playerOneInput.value;
+            playerTwoName = playerTwoInput.value;
+            playerThreeName = playerThreeInput.value;
             errMsg.innerHTML = "";
-	    }
-	    else {
-	    	errMsg.innerHTML = "Names not saved. Names must be between 1 and 12 characters long.";
-	    }
+        } else {
+            errMsg.innerHTML = "Names not saved. Names must be between 1 and 12 characters long.";
+        }
     }
 
     // Make name tags say what ever the names are.
@@ -468,442 +507,555 @@ function clearBoard() {
     turnNumber = 0;
     gameWon = false;
     console.log("Just wiped the board clean!");
+}
+
+// Clear asked tile.
+function clearTile(x) {
+    document.getElementById("inTile" + x).innerHTML = "";
+    document.getElementById("tile" + x).style.backgroundColor = "#EEE4DA";
+    document.getElementById("tile" + x).style.opacity = "";
+    console.log("Cleaning tile" + x);
+}
+
+// Highlight player number.
+function highlightPlayer(player) {
+    var player1tag = document.getElementById("playerOneName");
+    var player2tag = document.getElementById("playerTwoName");
+    var player3tag = document.getElementById("playerThreeName");
+    if (player == 0) {
+        player1tag.style.lineHeight = "35px";
+        player1tag.style.color = "#FFFFFF";
+        player2tag.style.lineHeight = "25px";
+        player2tag.style.color = "#433628";
+        player3tag.style.lineHeight = "25px";
+        player3tag.style.color = "#433628";
+        console.log("Just told Player X it's their turn!");
+    } else if (player == 1) {
+        player1tag.style.lineHeight = "25px";
+        player1tag.style.color = "#433628";
+        player2tag.style.lineHeight = "35px";
+        player2tag.style.color = "#FFFFFF";
+        player3tag.style.lineHeight = "25px";
+        player3tag.style.color = "#433628";
+        console.log("Just told Player X it's their turn!");
+    } else if (player == 2) {
+        player1tag.style.lineHeight = "25px";
+        player1tag.style.color = "#433628";
+        player2tag.style.lineHeight = "25px";
+        player2tag.style.color = "#433628";
+        player3tag.style.lineHeight = "35px";
+        player3tag.style.color = "#FFFFFF";
+        console.log("Just told Player X it's their turn!");
     }
+}
 
-    // Clear asked tile.
-    function clearTile(x) {
-        document.getElementById("inTile" + x).innerHTML = "";
-        document.getElementById("tile" + x).style.backgroundColor = "#EEE4DA";
-        document.getElementById("tile" + x).style.opacity = "";
-        console.log("Cleaning tile" + x);
+// Update Scores.
+
+function updateScores() {
+    // Variables for score texts.
+    var player1scoreTag = document.getElementById('playerOneScore');
+    var player2scoreTag = document.getElementById('playerTwoScore');
+    var player3scoreTag = document.getElementById('playerThreeScore');
+    // Resolve game mode scores.
+    if (gameMode == 0) {
+        player1scoreTag.innerHTML = gm0ps1;
+        player2scoreTag.innerHTML = gm0ps2;
+    } else if (gameMode == 1) {
+        player1scoreTag.innerHTML = gm1ps1;
+        player2scoreTag.innerHTML = gm1ps2;
+    } else if (gameMode == 2) {
+        player1scoreTag.innerHTML = gm2ps1;
+        player2scoreTag.innerHTML = gm2ps2;
+        player3scoreTag.innerHTML = gm2ps3;
     }
+    // Update Cookies as backup.
+    updateCookies();
+    console.log("Just Updated the Scores!");
+}
 
-    // Highlight player number.
-    function highlightPlayer(player) {
-        var player1tag = document.getElementById("playerOneName");
-        var player2tag = document.getElementById("playerTwoName");
-        var player3tag = document.getElementById("playerThreeName");
-        if (player == 0) {
-            player1tag.style.lineHeight = "35px";
-            player1tag.style.color = "#FFFFFF";
-            player2tag.style.lineHeight = "25px";
-            player2tag.style.color = "#433628";
-            player3tag.style.lineHeight = "25px";
-            player3tag.style.color = "#433628";
-            console.log("Just told Player X it's their turn!");
-        } else if (player == 1) {
-            player1tag.style.lineHeight = "25px";
-            player1tag.style.color = "#433628";
-            player2tag.style.lineHeight = "35px";
-            player2tag.style.color = "#FFFFFF";
-            player3tag.style.lineHeight = "25px";
-            player3tag.style.color = "#433628";
-            console.log("Just told Player X it's their turn!");
-        } else if (player == 2) {
-            player1tag.style.lineHeight = "25px";
-            player1tag.style.color = "#433628";
-            player2tag.style.lineHeight = "25px";
-            player2tag.style.color = "#433628";
-            player3tag.style.lineHeight = "35px";
-            player3tag.style.color = "#FFFFFF";
-            console.log("Just told Player X it's their turn!");
-        }
+// Update all cookies.
+function updateCookies() {
+
+    var wantedPersistance = '365'; // Length in days in which cookies are wanted to be stored.
+
+    setCookie('gameMode', gameMode, wantedPersistance);
+    setCookie('wGoesFirst', winnerGoesFirst, wantedPersistance);
+    setCookie('monoMode', monoTone, wantedPersistance);
+    setCookie('firstTo3', firstTo3, wantedPersistance);
+    setCookie('gm0ps1', gm0ps1, wantedPersistance);
+    setCookie('gm0ps2', gm0ps2, wantedPersistance);
+    setCookie('gm1ps1', gm1ps1, wantedPersistance);
+    setCookie('gm1ps2', gm1ps2, wantedPersistance);
+    setCookie('gm2ps1', gm2ps1, wantedPersistance);
+    setCookie('gm2ps2', gm2ps2, wantedPersistance);
+    setCookie('gm2ps3', gm2ps3, wantedPersistance);
+    setCookie('playerOneName', playerOneName, wantedPersistance);
+    setCookie('playerTwoName', playerTwoName, wantedPersistance);
+    setCookie('playerThreeName', playerThreeName, wantedPersistance);
+    setCookie('player1threes', player1threes, wantedPersistance);
+    setCookie('player2threes', player2threes, wantedPersistance);
+    setCookie('player3threes', player3threes, wantedPersistance);
+    console.log("Just Updated Cookies!");
+}
+
+function delSettings() {
+    var confiSets = confirm("Are you sure you want to clear your settings?");
+    if (confiSets == true) {
+        delCookie('gameMode');
+        delCookie('wGoesFirst');
+        delCookie('monoMode');
+        delCookie('firstTo3');
+        console.log("Just Deleted Cookies!");
     }
+}
 
-    // Update Scores.
-
-    function updateScores() {
-        // Variables for score texts.
-        var player1scoreTag = document.getElementById('playerOneScore');
-        var player2scoreTag = document.getElementById('playerTwoScore');
-        var player3scoreTag = document.getElementById('playerThreeScore');
-        // Resolve game mode scores.
-        if (gameMode == 0) {
-            player1scoreTag.innerHTML = gm0ps1;
-            player2scoreTag.innerHTML = gm0ps2;
-        } else if (gameMode == 1) {
-            player1scoreTag.innerHTML = gm1ps1;
-            player2scoreTag.innerHTML = gm1ps2;
-        } else if (gameMode == 2) {
-            player1scoreTag.innerHTML = gm2ps1;
-            player2scoreTag.innerHTML = gm2ps2;
-            player3scoreTag.innerHTML = gm2ps3;
-        }
-        // Update Cookies as backup.
-        updateCookies();
-        console.log("Just Updated the Scores!");
+function wipeScores() {
+    var confiScore = confirm("Are you sure you want to clear your scores? This cannot be undone!");
+    if (confiScore == true) {
+        delCookie('gm0ps1');
+        delCookie('gm0ps2');
+        delCookie('gm1ps1');
+        delCookie('gm1ps2');
+        delCookie('gm2ps1');
+        delCookie('gm2ps2');
+        delCookie('gm2ps3');
+        gm0ps1 = 0;
+        gm0ps2 = 0;
+        gm1ps1 = 0;
+        gm1ps2 = 0;
+        gm2ps1 = 0;
+        gm2ps2 = 0;
+        gm2ps3 = 0;
+        updateScores();
     }
+}
 
-    // Update all cookies.
-    function updateCookies() {
+// Game play logic.
 
-        var wantedPersistance = '365'; // Length in days in which cookies are wanted to be stored.
-
-        setCookie('gameMode', gameMode, wantedPersistance);
-        setCookie('wGoesFirst', winnerGoesFirst, wantedPersistance);
-        setCookie('monoMode', monoTone, wantedPersistance);
-        setCookie('firstTo3', firstTo3, wantedPersistance);
-        setCookie('gm0ps1', gm0ps1, wantedPersistance);
-        setCookie('gm0ps2', gm0ps2, wantedPersistance);
-        setCookie('gm1ps1', gm1ps1, wantedPersistance);
-        setCookie('gm1ps2', gm1ps2, wantedPersistance);
-        setCookie('gm2ps1', gm2ps1, wantedPersistance);
-        setCookie('gm2ps2', gm2ps2, wantedPersistance);
-        setCookie('gm2ps3', gm2ps3, wantedPersistance);
-        setCookie('playerOneName', playerOneName, wantedPersistance);
-        setCookie('playerTwoName', playerTwoName, wantedPersistance);
-        setCookie('playerThreeName', playerThreeName, wantedPersistance);
-        console.log("Just Updated Cookies!");
-    }
-
-    function delSettings() {
-        var confiSets = confirm("Are you sure you want to clear your settings?");
-        if (confiSets == true) {
-            delCookie('gameMode');
-            delCookie('wGoesFirst');
-            delCookie('monoMode');
-            delCookie('firstTo3');
-            console.log("Just Deleted Cookies!");
-        }
-    }
-
-    function wipeScores() {
-        var confiScore = confirm("Are you sure you want to clear your scores? This cannot be undone!");
-        if (confiScore == true) {
-            delCookie('gm0ps1');
-            delCookie('gm0ps2');
-            delCookie('gm1ps1');
-            delCookie('gm1ps2');
-            delCookie('gm2ps1');
-            delCookie('gm2ps2');
-            delCookie('gm2ps3');
-            gm0ps1 = 0;
-            gm0ps2 = 0;
-            gm1ps1 = 0;
-            gm1ps2 = 0;
-            gm2ps1 = 0;
-            gm2ps2 = 0;
-            gm2ps3 = 0;
-            updateScores();
-        }
-    }
-
-    // Game play logic.
-
-    // Play turn function.
-    function playTurn(x) {
-        if (gameWon == false) {
-            if (document.getElementById('inTile' + x).innerHTML != 'X' && document.getElementById('inTile' + x).innerHTML != 'O' && document.getElementById('inTile' + x).innerHTML != 'Y') {
-                turnNumber++;
-                if (playerTurn == 0) {
-                    highlightTile(x, 0);
-                } else if (playerTurn == 1) {
-                    highlightTile(x, 1);
-                } else if (playerTurn == 2) {
-                    highlightTile(x, 2);
-                }
-            }
-        }
-        console.log("Just played turn number " + turnNumber);
-    }
-
-    // FUnction to highlight a specified tile to a player.
-    function highlightTile(x, p) {
-        if (p == 0) {
-            document.getElementById('inTile' + x).innerHTML = "X";
-            document.getElementById('tile' + x).style.backgroundColor = "#FF8080";
-            document.getElementById('tile' + x).style.opacity = "1";
-        } else if (p == 1) {
-            document.getElementById('inTile' + x).innerHTML = "O";
-            document.getElementById('tile' + x).style.backgroundColor = "#80CCFF";
-            document.getElementById('tile' + x).style.opacity = "1";
-        } else if (p == 2) {
-            document.getElementById('inTile' + x).innerHTML = "Y";
-            document.getElementById('tile' + x).style.backgroundColor = "#E1DF55";
-            document.getElementById('tile' + x).style.opacity = "1";
-        }
-        console.log("Just highlighted the tile " + x + " to player " + playerTurn + "'s colour.");
-        checkWin();
-    }
-
-    // Check for a winner.
-
-    function checkWin() {
-
-        // Tile inners
-        var aa = document.getElementById('inTile1').innerHTML;
-        var ab = document.getElementById('inTile2').innerHTML;
-        var ac = document.getElementById('inTile3').innerHTML;
-        var ba = document.getElementById('inTile4').innerHTML;
-        var bb = document.getElementById('inTile5').innerHTML;
-        var bc = document.getElementById('inTile6').innerHTML;
-        var ca = document.getElementById('inTile7').innerHTML;
-        var cb = document.getElementById('inTile8').innerHTML;
-        var cc = document.getElementById('inTile9').innerHTML;
-
-        // Tiles.
-        var AA = document.getElementById('tile1').style;
-        var AB = document.getElementById('tile2').style;
-        var AC = document.getElementById('tile3').style;
-        var BA = document.getElementById('tile4').style;
-        var BB = document.getElementById('tile5').style;
-        var BC = document.getElementById('tile6').style;
-        var CA = document.getElementById('tile7').style;
-        var CB = document.getElementById('tile8').style;
-        var CC = document.getElementById('tile9').style;
-
-        if (gameMode == 0) {
-            console.log("No logic for gamemode 0 yet :(");
-        } else if (gameMode == 1) {
+// Play turn function.
+function playTurn(x) {
+    if (gameWon == false) {
+        if (document.getElementById('inTile' + x).innerHTML != 'X' && document.getElementById('inTile' + x).innerHTML != 'O' && document.getElementById('inTile' + x).innerHTML != 'Y') {
+            turnNumber++;
             if (playerTurn == 0) {
-                if (aa == 'X' && ab == 'X' && ac == 'X') {
-                    AA.backgroundColor = "#9AFF9A";
-                    AB.backgroundColor = "#9AFF9A";
-                    AC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-                } else if (ba == 'X' && bb == 'X' && bc == 'X') {
-                    BA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    BC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (ca == 'X' && cb == 'X' && cc == 'X') {
-                    CA.backgroundColor = "#9AFF9A";
-                    CB.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (aa == 'X' && ba == 'X' && ca == 'X') {
-                    AA.backgroundColor = "#9AFF9A";
-                    BA.backgroundColor = "#9AFF9A";
-                    CA.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (ab == 'X' && bb == 'X' && cb == 'X') {
-                    AB.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    CB.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (ac == 'X' && bc == 'X' && cc == 'X') {
-                    AC.backgroundColor = "#9AFF9A";
-                    BC.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (aa == 'X' && bb == 'X' && cc == 'X') {
-                    AA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (ca == 'X' && bb == 'X' && ac == 'X') {
-                    CA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    AC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player X just won!");
-                    gm1ps1++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 1;
-                    updateScores();
-
-                } else if (turnNumber == 9) {
-                    gameWon = true;
-                    justWon = 0;
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#FF8533";
-                    AA.backgroundColor = "#FF8533";
-                    AB.backgroundColor = "#FF8533";
-                    AC.backgroundColor = "#FF8533";
-                    BA.backgroundColor = "#FF8533";
-                    BB.backgroundColor = "#FF8533";
-                    BC.backgroundColor = "#FF8533";
-                    CA.backgroundColor = "#FF8533";
-                    CB.backgroundColor = "#FF8533";
-                    CC.backgroundColor = "#FF8533";
-                    changeTurn();
-                    console.log("Nobody won!");
-                }
-                changeTurn();
-                console.log("Just checked if player 1 has won.");
+                highlightTile(x, 0);
             } else if (playerTurn == 1) {
-                if (aa == 'O' && ab == 'O' && ac == 'O') {
-                    AA.backgroundColor = "#9AFF9A";
-                    AB.backgroundColor = "#9AFF9A";
-                    AC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (ba == 'O' && bb == 'O' && bc == 'O') {
-                    BA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    BC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (ca == 'O' && cb == 'O' && cc == 'O') {
-                    CA.backgroundColor = "#9AFF9A";
-                    CB.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (aa == 'O' && ba == 'O' && ca == 'O') {
-                    AA.backgroundColor = "#9AFF9A";
-                    BA.backgroundColor = "#9AFF9A";
-                    CA.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (ab == 'O' && bb == 'O' && cb == 'O') {
-                    AB.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    CB.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (ac == 'O' && bc == 'O' && cc == 'O') {
-                    AC.backgroundColor = "#9AFF9A";
-                    BC.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (aa == 'O' && bb == 'O' && cc == 'O') {
-                    AA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    CC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (ca == 'O' && bb == 'O' && ac == 'O') {
-                    CA.backgroundColor = "#9AFF9A";
-                    BB.backgroundColor = "#9AFF9A";
-                    AC.backgroundColor = "#9AFF9A";
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
-                    console.log("Player O just won!");
-                    gm1ps2++;
-                    turnNumber = 0;
-                    gameWon = true;
-                    justWon = 2;
-                    updateScores();
-                } else if (turnNumber == 9) {
-                    gameWon = true;
-                    justWon = 0;
-                    document.getElementById('playAgain').innerHTML = "Play Again?";
-                    document.getElementById('playAgain').style.backgroundColor = "#FF8533";
-                    AA.backgroundColor = "#FF8533";
-                    AB.backgroundColor = "#FF8533";
-                    AC.backgroundColor = "#FF8533";
-                    BA.backgroundColor = "#FF8533";
-                    BB.backgroundColor = "#FF8533";
-                    BC.backgroundColor = "#FF8533";
-                    CA.backgroundColor = "#FF8533";
-                    CB.backgroundColor = "#FF8533";
-                    CC.backgroundColor = "#FF8533";
-                    changeTurn();
-                    console.log("Nobody won!");
-                }
-                changeTurn();
-                console.log("Just checked if player 2 has won.");
+                highlightTile(x, 1);
+            } else if (playerTurn == 2) {
+                highlightTile(x, 2);
             }
-        } else if (gameMode == 2) {
-            console.log("No logic for gamemode 2 yet :(");
         }
     }
+    console.log("Just played turn number " + turnNumber);
+}
 
-    // Chnage player turn.
-    function changeTurn() {
-        if (gameMode == 0 || gameMode == 1) {
-            if (gameWon === false) {
+// FUnction to highlight a specified tile to a player.
+function highlightTile(x, p) {
+    if (p == 0) {
+        document.getElementById('inTile' + x).innerHTML = "X";
+        document.getElementById('tile' + x).style.backgroundColor = "#FF8080";
+        document.getElementById('tile' + x).style.opacity = "1";
+    } else if (p == 1) {
+        document.getElementById('inTile' + x).innerHTML = "O";
+        document.getElementById('tile' + x).style.backgroundColor = "#80CCFF";
+        document.getElementById('tile' + x).style.opacity = "1";
+    } else if (p == 2) {
+        document.getElementById('inTile' + x).innerHTML = "Y";
+        document.getElementById('tile' + x).style.backgroundColor = "#E1DF55";
+        document.getElementById('tile' + x).style.opacity = "1";
+    }
+    console.log("Just highlighted the tile " + x + " to player " + playerTurn + "'s colour.");
+    checkWin();
+}
+
+// Check for a winner.
+
+function checkWin() {
+
+    // Tile inners
+    var aa = document.getElementById('inTile1').innerHTML;
+    var ab = document.getElementById('inTile2').innerHTML;
+    var ac = document.getElementById('inTile3').innerHTML;
+    var ba = document.getElementById('inTile4').innerHTML;
+    var bb = document.getElementById('inTile5').innerHTML;
+    var bc = document.getElementById('inTile6').innerHTML;
+    var ca = document.getElementById('inTile7').innerHTML;
+    var cb = document.getElementById('inTile8').innerHTML;
+    var cc = document.getElementById('inTile9').innerHTML;
+    var xa = document.getElementById('inTile10').innerHTML;
+    var xb = document.getElementById('inTile11').innerHTML;
+    var xc = document.getElementById('inTile12').innerHTML;
+    var xd = document.getElementById('inTile13').innerHTML;
+    var xe = document.getElementById('inTile14').innerHTML;
+    var xf = document.getElementById('inTile15').innerHTML;
+    var xg = document.getElementById('inTile16').innerHTML;
+
+    // Tiles.
+    var AA = document.getElementById('tile1').style;
+    var AB = document.getElementById('tile2').style;
+    var AC = document.getElementById('tile3').style;
+    var BA = document.getElementById('tile4').style;
+    var BB = document.getElementById('tile5').style;
+    var BC = document.getElementById('tile6').style;
+    var CA = document.getElementById('tile7').style;
+    var CB = document.getElementById('tile8').style;
+    var CC = document.getElementById('tile9').style;
+    var XA = document.getElementById('tile10').style;
+    var XB = document.getElementById('tile11').style;
+    var XC = document.getElementById('tile12').style;
+    var XD = document.getElementById('tile13').style;
+    var XE = document.getElementById('tile14').style;
+    var XF = document.getElementById('tile15').style;
+    var XG = document.getElementById('tile16').style;
+
+    if (gameMode == 0) {
+        console.log("No logic for gamemode 0 yet :(");
+    } else if (gameMode == 1) {
+        if (playerTurn == 0) {
+            if (aa == 'X' && ab == 'X' && ac == 'X') {
+                AA.backgroundColor = "#9AFF9A";
+                AB.backgroundColor = "#9AFF9A";
+                AC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+            } else if (ba == 'X' && bb == 'X' && bc == 'X') {
+                BA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                BC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (ca == 'X' && cb == 'X' && cc == 'X') {
+                CA.backgroundColor = "#9AFF9A";
+                CB.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (aa == 'X' && ba == 'X' && ca == 'X') {
+                AA.backgroundColor = "#9AFF9A";
+                BA.backgroundColor = "#9AFF9A";
+                CA.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (ab == 'X' && bb == 'X' && cb == 'X') {
+                AB.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                CB.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (ac == 'X' && bc == 'X' && cc == 'X') {
+                AC.backgroundColor = "#9AFF9A";
+                BC.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (aa == 'X' && bb == 'X' && cc == 'X') {
+                AA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (ca == 'X' && bb == 'X' && ac == 'X') {
+                CA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                AC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player X just won!");
+                gm1ps1++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 1;
+                updateScores();
+
+            } else if (turnNumber == 9) {
+                gameWon = true;
+                justWon = 0;
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#FF8533";
+                AA.backgroundColor = "#FF8533";
+                AB.backgroundColor = "#FF8533";
+                AC.backgroundColor = "#FF8533";
+                BA.backgroundColor = "#FF8533";
+                BB.backgroundColor = "#FF8533";
+                BC.backgroundColor = "#FF8533";
+                CA.backgroundColor = "#FF8533";
+                CB.backgroundColor = "#FF8533";
+                CC.backgroundColor = "#FF8533";
+                changeTurn();
+                console.log("Nobody won!");
+            }
+            changeTurn();
+            console.log("Just checked if player 1 has won.");
+        } else if (playerTurn == 1) {
+            if (aa == 'O' && ab == 'O' && ac == 'O') {
+                AA.backgroundColor = "#9AFF9A";
+                AB.backgroundColor = "#9AFF9A";
+                AC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (ba == 'O' && bb == 'O' && bc == 'O') {
+                BA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                BC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (ca == 'O' && cb == 'O' && cc == 'O') {
+                CA.backgroundColor = "#9AFF9A";
+                CB.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (aa == 'O' && ba == 'O' && ca == 'O') {
+                AA.backgroundColor = "#9AFF9A";
+                BA.backgroundColor = "#9AFF9A";
+                CA.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (ab == 'O' && bb == 'O' && cb == 'O') {
+                AB.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                CB.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (ac == 'O' && bc == 'O' && cc == 'O') {
+                AC.backgroundColor = "#9AFF9A";
+                BC.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (aa == 'O' && bb == 'O' && cc == 'O') {
+                AA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                CC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (ca == 'O' && bb == 'O' && ac == 'O') {
+                CA.backgroundColor = "#9AFF9A";
+                BB.backgroundColor = "#9AFF9A";
+                AC.backgroundColor = "#9AFF9A";
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#9AFF9A";
+                console.log("Player O just won!");
+                gm1ps2++;
+                turnNumber = 0;
+                gameWon = true;
+                justWon = 2;
+                updateScores();
+            } else if (turnNumber == 9) {
+                gameWon = true;
+                justWon = 0;
+                document.getElementById('playAgain').innerHTML = "Play Again?";
+                document.getElementById('playAgain').style.backgroundColor = "#FF8533";
+                AA.backgroundColor = "#FF8533";
+                AB.backgroundColor = "#FF8533";
+                AC.backgroundColor = "#FF8533";
+                BA.backgroundColor = "#FF8533";
+                BB.backgroundColor = "#FF8533";
+                BC.backgroundColor = "#FF8533";
+                CA.backgroundColor = "#FF8533";
+                CB.backgroundColor = "#FF8533";
+                CC.backgroundColor = "#FF8533";
+                changeTurn();
+                console.log("Nobody won!");
+            }
+            changeTurn();
+            console.log("Just checked if player 2 has won.");
+        }
+    } else if (gameMode == 2) {
+        // Check for winning configs.
+        // Player X.
+        if (playerTurn == 0) {
+            // Check turn number.
+            if (turnNumber == 16) {
+
+            }
+            // Horizontals.
+            else if (aa == 'X' && ab == 'X' && ac == 'X') {
+                // Check first to three.
+                if (firstTo3 == true) {
+                    // If yes, they win.
+                    gameWon = true;
+                    justWon = 0;
+                    // Colour Buttons and tiles.
+                    document.getElementById('playAgain').innerHTML = "Play Again?";
+                    document.getElementById('playAgain').style.backgroundColor = "#FF8533";
+                    AA.backgroundColor = "#FF8533";
+                    AB.backgroundColor = "#FF8533";
+                    AC.backgroundColor = "#FF8533";
+                    // Update Scores and save.
+                    gm2ps1++;
+                    updateScores();
+                } else if (firstTo3 == false) {
+                    // If not, they gain a point.
+
+                }
+            } else if (ab == 'X' && ac == 'X' && ba == 'X') {
+
+            } else if (bb == 'X' && bc == 'X' && ca == 'X') {
+
+            } else if (bc == 'X' && ca == 'X' && cb == 'X') {
+
+            } else if (cc == 'X' && xa == 'X' && xb == 'X') {
+
+            } else if (xa == 'X' && xb == 'X' && xc == 'X') {
+
+            } else if (xd == 'X' && xe == 'X' && xf == 'X') {
+
+            } else if (xe == 'X' && xf == 'X' && xg == 'X') {
+
+            }
+            // Verticals.
+            else if (aa == 'X' && bb == 'X' && cc == 'X') {
+
+            } else if (bb == 'X' && cc == 'X' && xd == 'X') {
+
+            } else if (ab == 'X' && bc == 'X' && xa == 'X') {
+
+            } else if (bc == 'X' && xa == 'X' && xe == 'X') {
+
+            } else if (ac == 'X' && ca == 'X' && bx == 'X') {
+
+            } else if (ca == 'X' && xb == 'X' && xf == 'X') {
+
+            } else if (ba == 'X' && cb == 'X' && xc == 'X') {
+
+            } else if (cb == 'X' && xc == 'X' && xg == 'X') {
+
+            }
+            // Horizontals.
+            else if (aa == 'X' && bc == 'X' && xb == 'X') {
+
+            } else if (bc == 'X' && xb == 'X' && xg == 'X') {
+
+            } else if (bb == 'X' && xa == 'X' && xf == 'X') {
+
+            } else if (ab == 'X' && ca == 'X' && xc == 'X') {
+
+            } else if (ba == 'X' && ca == 'X' && xa == 'X') {
+
+            } else if (ca == 'X' && xa == 'X' && xd == 'X') {
+
+            } else if (ac == 'X' && bc == 'X' && cc == 'X') {
+
+            } else if (cb == 'X' && xb == 'X' && xe == 'X') {
+
+            }
+        }
+    }
+}
+
+// Chnage player turn.
+function changeTurn() {
+    if (gameMode == 0 || gameMode == 1) {
+        if (gameWon === false) {
+            if (playerTurn == 0) {
+                playerTurn = 1;
+                highlightPlayer(1);
+            } else if (playerTurn == 1) {
+                playerTurn = 0;
+                highlightPlayer(0);
+            }
+        } else if (gameWon === true) {
+            if (winnerGoesFirst === true && justWon != '0') {
+                if (justWon == 1) {
+                    playerTurn = 0;
+                    highlightPlayer(0);
+                } else if (justWon == 2) {
+                    playerTurn = 1;
+                    highlightPlayer(1);
+                }
+                justWon = 0;
+            } else if (winnerGoesFirst === false) {
                 if (playerTurn == 0) {
                     playerTurn = 1;
                     highlightPlayer(1);
@@ -911,38 +1063,20 @@ function clearBoard() {
                     playerTurn = 0;
                     highlightPlayer(0);
                 }
-            } else if (gameWon === true) {
-                if (winnerGoesFirst === true && justWon != '0') {
-                    if (justWon == 1) {
-                        playerTurn = 0;
-                        highlightPlayer(0);
-                    } else if (justWon == 2) {
-                        playerTurn = 1;
-                        highlightPlayer(1);
-                    }
-                    justWon = 0;
-                } else if (winnerGoesFirst === false) {
-                    if (playerTurn == 0) {
-                        playerTurn = 1;
-                        highlightPlayer(1);
-                    } else if (playerTurn == 1) {
-                        playerTurn = 0;
-                        highlightPlayer(0);
-                    }
-                }
-            }
-        } else if (gameMode == 2) {
-            if (playerTurn == 0) {
-                playerTurn = 1;
-                console.log("Just changed the player turn to " + playerTurn);
-            } else if (playerTurn == 1) {
-                playerTurn = 2;
-                console.log("Just changed the player turn to " + playerTurn);
-            } else if (playerTurn == 2) {
-                playerTurn = 0;
-                console.log("Just changed the player turn to " + playerTurn);
             }
         }
+    } else if (gameMode == 2) {
+        if (playerTurn == 0) {
+            playerTurn = 1;
+            console.log("Just changed the player turn to " + playerTurn);
+        } else if (playerTurn == 1) {
+            playerTurn = 2;
+            console.log("Just changed the player turn to " + playerTurn);
+        } else if (playerTurn == 2) {
+            playerTurn = 0;
+            console.log("Just changed the player turn to " + playerTurn);
+        }
     }
+}
 
-    // Pika boo, I see you!
+// Pika boo, I see you!
